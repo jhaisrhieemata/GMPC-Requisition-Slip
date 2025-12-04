@@ -1,0 +1,1146 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Requisition Form </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+       /* ============================
+   GLOBAL
+============================ */
+body {
+  background: #f8f9fa;
+  padding-top: 20px;
+}
+
+/* ============================
+   TABLE STYLING
+============================ */
+.table-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 2px 4px;
+}
+
+.table-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.table th,
+.table td {
+  vertical-align: middle !important;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.table thead th {
+  background-color: #f0f0f0;
+  font-weight: 600;
+  text-align: center;
+}
+
+.small.text-primary { 
+  display:block; 
+  margin-top:4px; 
+  font-size:0.8rem; 
+  }
+
+/* ============================
+   CARD
+============================ */
+.card {
+  border-radius: 1rem;
+}
+
+/* ============================
+   ITEMS MODAL LIST
+============================ */
+.items-modal-list {
+  max-height: 55vh;
+  overflow: auto;
+}
+
+small.text-primary {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+}
+
+/* ============================
+   SIGNATURE PAD (NEW + FIXED SIZE)
+============================ */
+.signature-box {
+  width:100%;
+  height:250px;
+  max-width:600px;
+  margin:0 auto;
+  background: #ffffff;
+  border: 2px solid #000;
+  border-radius: 12px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Canvas inside signature box */
+.sig-pad {
+  border-radius:6px;
+  background: white;
+  width:100%; 
+  height:100%;
+  cursor: crosshair;
+}
+
+/* ============================
+   SIGNATURE PREVIEW (optional)
+============================ */
+#signaturePreview img {
+  display: block;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  max-height: 100px;
+}
+
+/* ============================
+   MODAL STYLING
+============================ */
+
+.items-modal-list { 
+  max-height: 55vh; overflow:auto; 
+  }
+
+.modal-dialog.modal-lg {
+  max-width: 800px;
+}
+
+.modal-content {
+  border-radius: 1rem;
+  box-shadow: 0 0 25px rgba(0,0,0,0.25);
+}
+
+
+
+/* Dim overlay */
+.modal-backdrop.show {
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(2px);
+}
+
+/* ============================
+   PROGRESS BAR
+============================ */
+.progress-bar {
+  transition: width 0.4s ease-in-out, background-color 0.2s;
+  background-color: #198754;
+  color: white;
+  font-weight: 500;
+}
+    </style>
+  </head>
+  <body>
+    <script>
+      const REDIRECT_URL = "https://sites.google.com/view/giantmotoprocorp";
+    </script>
+    <div class="container">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="mb-3">Requisition Form</h3>
+
+          <form id="reqForm" onsubmit="return handleSubmit(event)">
+            <div class="row mb-2">
+              <div class="col-md-6">
+                <label class="form-label">Branch/Department</label>
+                <select class="form-select" id="branch" required>
+                  <option value=""></option>
+                  <option>ADMIN</option>
+                  <option>WAREHOUSE</option>
+                  <option>LAGTANG</option>
+                  <option>V-RAMA</option>
+                  <option>BULACAO</option>
+                  <option>Y3S TALISAY</option>
+                  <option>MINGLANILLA</option>
+                  <option>Y3S PARDO</option>
+                  <option>LAPU-LAPU</option>
+                  <option>BACAYAN</option>
+                  <option>SAN FERNANDO MB</option>
+                  <option>Y3S SAN FERNANDO</option>
+                  <option>LILOAN</option>
+                  <option>CORDOVA MB</option>
+                  <option>Y3S CORDOVA</option>
+                  <option>CLARIN</option>
+                  <option>TOLEDO</option>
+                  <option>UBAY</option>
+                  <option>CARMEN</option>
+                  <option>TUBIGON</option>
+                  <option>TALIBON</option>
+                  <option>BOGO</option>
+                  <option>BALAMBAN</option>
+                  <option>Y3S BARILI</option>
+                  <option>BARILI MB</option>
+                  <option>SIERRA BULLONES</option>
+                  <option>PITOGO</option>
+                  <option>TAYUD CONSOLACION</option>
+                  <option>PINAMUNGAJAN</option>
+                  <option>CANDIJAY</option>
+                  <option>YATI LILOAN</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Date</label>
+                <input type="date" class="form-control" id="date" required>
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label">To</label>
+              <select class="form-select" id="to" required>
+                <option value=""></option>
+                <option>PURCHASING OFFICE</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Purpose of Request</label>
+              <select class="form-select" id="purpose" required>
+                <option value=""></option>
+                <option>OFFICE SUPPLIES</option>
+                <option>SPECIAL REQUEST</option>
+              </select>
+            </div>
+
+            <!-- Items -->
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6>Items</h6>
+                <div>
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" onclick="openItemsModal()">Choose Items</button>
+                  <button type="button" class="btn btn-sm btn-outline-primary me-1" onclick="addRow()">+ Add Item</button>
+                  <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSelectedRows()">– Remove</button>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-sm table-bordered" id="itemsTable" >
+                  <thead class="table-light">
+                    <tr>
+                      <th style="width:40px"></th>
+                      <th style="width:80px">Qty</th>
+                      <th style="width:120px">Unit</th>
+                      <th>Description</th>
+                      <th style="width:120px">UPrice</th>
+                      <th style="width:120px">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody id="itemsBody"></tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5" class="text-end"><strong>Total</strong></td>
+                      <td><input id="total" class="form-control" readonly value="0.00"></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Note Here</label>
+              <textarea id="note" class="form-control" rows="3" placeholder="Request details here..." required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Requested By</label>
+              <input id="requested_by" class="form-control" placeholder="Complete Name" required>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">E-Signature</label>
+              <p style="color:BLUE">Please provide a wider signature.</p>
+              <div class="signature-box border border-2 border-dark rounded bg-white mx-auto">
+                <canvas id="sigCanvas" class="sig-pad"></canvas>
+              </div>
+              <div class="d-flex gap-2 mt-2">
+                <button type="button" class="btn btn-sm btn-outline-primary" id="clearSigBtn">Clear Signature</button>
+              </div>
+            </div>
+
+            <input type="hidden" id="sigData">
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary">Submit & Create PDF</button>
+              <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset</button>
+              <button type="button" class="btn btn-danger ms-auto" id="exitMainBtn">Exit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Items Modal (flat checkbox list) -->
+    <div class="modal fade" id="itemsModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Choose Items</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-2 d-flex justify-content-between align-items-center">
+              <div>
+                <input type="text" id="itemsSearch" class="form-control form-control-sm" placeholder="Search items (optional)">
+              </div>
+              <div class="form-check ms-2">
+                <input class="form-check-input" type="checkbox" id="selectAllItems">
+                <label class="form-check-label" for="selectAllItems">Select All</label>
+              </div>
+            </div>
+            <div class="items-modal-list" id="itemsModalList"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="applySelectedItems()">Apply Selected Items</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Processing Modal -->
+    <div class="modal fade" id="processModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+          <div class="modal-header">
+            <h5 class="modal-title w-100">Processing Request</h5>
+          </div>
+          <div class="modal-body">
+            <div id="modalContent">
+              <div class="text-center mb-3">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p class="mt-2">Saving and generating PDF...</p>
+              </div>
+              <div class="progress" style="height:20px">
+                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:0%">0%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🛑 Prompt if signature missing -->
+    <div class="modal fade" id="noSigModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+          <div class="modal-header bg-warning">
+            <h5 class="modal-title w-100 text-dark">Signature Required</h5>
+          </div>
+          <div class="modal-body">
+            <p class="fw-bold text-danger">⚠️ Please sign before submitting.</p>
+            <button class="btn btn-primary" data-bs-dismiss="modal" onclick="scrollToSignature()">
+  Go to Signature Pad
+</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exit Confirmation Modal -->
+    <div
+      class="modal fade"
+      id="exitConfirmModal"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title w-100">Confirm Exit</h5>
+          </div>
+          <div class="modal-body">
+            <p>
+              Are you sure you want to exit this form? Please close this tab
+              manually — your browser blocked automatic closing for security
+              reasons.
+            </p>
+            <div class="d-flex justify-content-center gap-2">
+              <button class="btn btn-danger" id="confirmExitBtn">
+                Yes, Exit
+              </button>
+              <button class="btn btn-secondary" data-bs-dismiss="modal">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- Offline / 404 Modal -->
+    <div class="modal fade" id="offlineModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+          <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title w-100">No Internet Connection</h5>
+          </div>
+          <div class="modal-body">
+            <div class="my-3">
+              <i class="bi bi-wifi-off text-danger" style="font-size: 3rem"></i>
+              <p class="mt-3 fs-5">You appear to be offline.</p>
+              <p class="text-muted">
+                Please check your connection and try again.
+              </p>
+            </div>
+            <button class="btn btn-primary" onclick="location.reload()">
+              Reload Page
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connection Restored Modal -->
+    <div class="modal fade" id="onlineModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title w-100">Connection Restored</h5>
+          </div>
+          <div class="modal-body">
+            <div class="my-3">
+              <i class="bi bi-wifi text-success" style="font-size: 3rem"></i>
+              <p class="mt-3 fs-5">You’re back online!</p>
+              <p class="text-muted">All features are now available again.</p>
+            </div>
+            <button class="btn btn-success" data-bs-dismiss="modal">
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:1055">
+      <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert">
+        <div class="d-flex">
+          <div class="toast-body">✅ Submitted successfully!</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // === Item categories map (flat OFFICE SUPPLIES) ===
+      const itemCategories = {
+        "OFFICE SUPPLIES": {
+          "BOND PAPER (LONG)": "REAM",
+          "BOND PAPER (SHORT)": "REAM",
+          "BOND PAPER A4": "REAM",
+          "BOND PAPER NEWSPRINT (SHORT)": "REAM",
+          "BOND PAPER NEWSPRINT (LONG)": "REAM",
+          "VELLUM PAPER": "PC",
+          "LOGBOOK VALIANT RECORD (150 & 300P PAGES)": "PC",
+          "NOTEBOOK": "PC",
+          "CARBON PAPER (LONG BLUE)": "PC",
+          "BROWN ENVELOPE (LONG)": "PC",
+          "BROWN ENVELOPE (SHORT)": "PC",
+          "BROWN FOLDER (LONG)": "PC",
+          "BROWN FOLDER (SHORT)": "PC",
+          "WHITE FOLDER (LONG)": "PC",
+          "WHITE FOLDER (SHORT)": "PC",
+          "LETTER SHORT WHITE ENVELOPE": "PC",
+          "LETTER LONG WHITE ENVELOPE": "PC",
+          "CARD HOLDER": "PC",
+          "FLEXSTICK BLACK BALLPEN (0.5)": "PC",
+          "FLEXSTICK RED BALLPEN (0.5)": "PC",
+          "WYTEBORD MARKER PILOT (BLACK)": "PC",
+          "WYTEBORD MARKER PILOT (RED)": "PC",
+          "HIGHLIGHTER": "PC",
+          "PENCIL": "PC",
+          "SHARPENER": "PC",
+          "ERASER": "PC",
+          "CORRECTION TAPE": "PC",
+          "CANDIES": "PC",
+          "PUNCHER": "PC",
+          "STAPLER": "PC",
+          "SCISSORS": "PC",
+          "GLUE": "PC",
+          "RULER": "PC",
+          "CALCULATOR MX-12B": "PC",
+          "TAPE DISPENSER BIG": "PC",
+          "SCOTCH TAPE (1 INCH)": "PC",
+          "SCOTCH TAPE (2 INCH)": "PC",
+          "MASKING TAPE": "PC",
+          "PACKAGING TAPE BROWN": "PC",
+          "DOUBLE-SIDED TAPE (1 INCH)": "PC",
+          "DUCT TAPE": "PC",
+          "TYPEWRITER BLACK NYLON": "PC",
+          "INK EPSON 003 (YELLOW)": "PC",
+          "INK EPSON 003 (MAGENTA)": "PC",
+          "INK EPSON 003 (CYAN)": "PC",
+          "INK EPSON 003 (BLACK)": "PC",
+          "INK BROTHER BT5000Y": "PC",
+          "INK BROTHER BT5000M": "PC",
+          "INK BROTHER BT5000C": "PC",
+          "INK BROTHER BTD60BK": "PC",
+          "INK HP (YELLOW)": "PC",
+          "INK HP (MAGENTA)": "PC",
+          "INK HP (CYAN)": "PC",
+          "INK HP (BLACK)": "PC",
+          "PRIDE SOAP POWDER": "PC",
+          "STAMP PAD INK BLACK 30ML": "PC",
+          "STAMP PAD INK BLUE 30ML": "PC",
+          "STAMP PAD INK RED 30ML": "PC",
+          "SUPER COLOR MARKER PILOT (BLACK)": "PC",
+          "JOY": "PC",
+          "DOWNY": "PC",
+          "SAFEGUARD SOAP": "PC",
+          "STICKY NOTES 2X2 A02": "PAD",
+          "STICKY NOTES A03": "PAD",
+          "STICKY NOTES A05": "PAD",
+          "FASTENER": "BOX",
+          "PAPER CLIPS 50MM": "BOX",
+          "PAPER CLIPS JUMBO": "BOX",
+          "BINDER CLIPS 2 INCHES": "BOX",
+          "BINDER CLIPS 1 5/8 41MM": "BOX",
+          "BINDER CLIPS 1 1/4 32MM": "BOX",
+          "BINDER CLIPS 1 INCHES": "BOX",
+          "STAPLE WIRE #35": "BOX",
+          "STAPLE WIRE #10-M": "BOX",
+          "RUBBER BAND ROUND RB-350": "PACK",
+          "CABLE TIE": "PACK",
+          "COFFEE CUPS": "PACK",
+          "DRINKING CUPS": "PACK",
+          "COFFEE STICK": "PACK",
+          "CREAMER": "PACK",
+          "BROWN SUGAR": "PACK",
+          "STIRRER": "PC",
+          "SUPER COLOR MARKER REFILL INK (BLACK)": "BTL",
+          "WYTEBORD MARKER REFILL INK PILOT (BLACK)": "BTL",
+          "WYTEBORD MARKER REFILL INK PILOT (RED)": "BTL",
+          "ALBATROSS": "PC",
+          "ZONROX (ORIGINAL)": "BTL",
+          "ZONROX (COLORSAFE)": "BTL",
+          "GLASS CLEANER": "BTL",
+          "HANDWASH": "BTL",
+          "RAGS": "BDL",
+          "TRASH BAG (XXL)": "ROLL",
+          "TRASH BAG (XL)": "ROLL",
+          "TRASH BAG (LARGE)": "ROLL",
+          "TRASH BAG (MEDIUM)": "ROLL",
+          "TRASH BAG (SMALL)": "ROLL",
+          "TISSUE PAPER": "ROLL",
+          "INK EPSON SET": "SET",
+          "INK BROTHER SET": "SET",
+          "INK HP SET": "SET",
+          "STAMP PAD BLUE NO.2": "PC",
+          "STAMP PAD BLACK NO.2": "PC",
+          "DTR CARD": "PC",
+          "FASTENER LONG": "BOX"
+        }
+      };
+
+      const unitPlural = {
+        REAM: "REAMS",
+        PC: "PCS",
+        PAD: "PADS",
+        BOX: "BOXES",
+        PACK: "PACKS",
+        BDL: "BDLS",
+        BTL: "BTLS",
+        ROLL: "ROLLS",
+        SET: "SETS",
+        UNIT: "UNITS"
+      };
+
+      // current item map & mode
+      let currentItemMap = itemCategories["OFFICE SUPPLIES"];
+      let useInputField = false;
+
+      document.getElementById('purpose').addEventListener('change', () => {
+  const purpose = document.getElementById("purpose").value;
+  const addBtn = document.querySelector('button[onclick="addRow()"]');
+  const chooseBtn = document.querySelector('button[onclick="openItemsModal()"]');
+
+
+  if (purpose === "OFFICE SUPPLIES") {
+    itemsBody.innerHTML = "";
+    addBtn.style.display = "none";
+    chooseBtn.style.display = "";
+  } else {
+    addBtn.style.display = "";
+    chooseBtn.style.display = "none";
+  }
+
+  // Reset all rows
+  document.getElementById('itemsBody').innerHTML = '';
+  addRow();
+});
+
+       const purpose = document.getElementById("purpose");
+          const note = document.getElementById("note");
+
+             purpose.addEventListener("change", () => {
+          if (purpose.value === "SPECIAL REQUEST") {
+         note.setAttribute("required", "required");
+        } else {
+         note.removeAttribute("required");
+       }
+      });
+
+      // DOM ready
+      document.addEventListener('DOMContentLoaded', () => {
+        addRow();
+        initSignaturePad();
+        buildItemsModalList(); // populate modal list
+      });
+
+      // --- Signature Pad ---
+      function initSignaturePad() {
+        const canvas = document.getElementById('sigCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let lastX = 0, lastY = 0;
+
+        function resize() {
+          const ratio = Math.max(window.devicePixelRatio || 1, 1);
+          const box = document.querySelector('.signature-box');
+          const rect = box.getBoundingClientRect();
+          canvas.width = rect.width * ratio;
+          canvas.height = rect.height * ratio;
+          ctx.scale(ratio, ratio);
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = '#000';
+        }
+
+        function start(e) {
+          drawing = true;
+          const rect = canvas.getBoundingClientRect();
+          lastX = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+          lastY = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+          e.preventDefault();
+        }
+        function move(e) {
+          if (!drawing) return;
+          const rect = canvas.getBoundingClientRect();
+          const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+          const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+          lastX = x; lastY = y;
+        }
+        function end() {
+          drawing = false;
+          document.getElementById('sigData').value = canvas.toDataURL('image/png');
+        }
+
+        canvas.addEventListener('pointerdown', start);
+        canvas.addEventListener('pointermove', move);
+        canvas.addEventListener('pointerup', end);
+        canvas.addEventListener('pointerleave', end);
+        canvas.addEventListener('touchstart', start, {passive:false});
+        canvas.addEventListener('touchmove', move, {passive:false});
+        canvas.addEventListener('touchend', end);
+
+        document.getElementById('clearSigBtn').addEventListener('click', () => {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          document.getElementById('sigData').value = '';
+        });
+
+        window.addEventListener('resize', resize);
+        resize();
+      }
+
+      function scrollToSignature() {
+  document.getElementById("sigCanvas").scrollIntoView({ behavior: "smooth" });
+}
+          
+
+          function isCanvasBlank(canvas) {
+  const ctx = canvas.getContext('2d');
+  const pixelData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+  // Check if all pixels are white (blank)
+  for (let i = 0; i < pixelData.length; i += 4) {
+    if (pixelData[i] !== 255 || pixelData[i + 1] !== 255 || pixelData[i + 2] !== 255) {
+      return false; // Found non-white pixel → signature exists
+    }
+  }
+  return true; // Still white → blank signature
+}
+function clearSignaturePad() {
+  const canvas = document.getElementById('sigCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+
+  // Clear the canvas to white background
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Clear hidden input
+  document.getElementById('sigData').value = "";
+}
+
+
+// === REAL-TIME STOCK + SHOW ALL + OUT-OF-STOCK DISABLED ===
+function buildItemsModalList() {
+  const container = document.getElementById("itemsModalList");
+  container.innerHTML = '<p class="text-center mt-2">Loading items…</p>';
+
+  google.script.run.withSuccessHandler(stockMap => {
+    container.innerHTML = "";
+
+    const y3sItems = [
+      "ALBATROSS","BROWN SUGAR","CANDIES","COFFEE CUPS","COFFEE STICK",
+      "CREAMER","DRINKING CUPS","GLASS CLEANER","STIRRER","TISSUE PAPER"
+    ];
+
+    const allItems = Object.keys(itemCategories["OFFICE SUPPLIES"]).sort();
+
+    // scale for bar percentages
+    const stocksArray = Object.values(stockMap).filter(n => n >= 0);
+    const scale = stocksArray.length ? Math.max(...stocksArray) : 50;
+
+    allItems.forEach((item, idx) => {
+      const stock = Number(stockMap[item] ?? 0);
+
+      // === availability status text ===
+const statusText = stock > 0
+  ? `<span class="text-success fw-bold">Available</span>`
+  : `<span class="text-danger fw-bold">Out of Stock</span>`;
+
+// === hide “Stock: 0” but show Stock: 1+ ===
+const stockLabel = stock > 0
+  ? `<div class="small text-muted">Stock: <strong>${stock}</strong></div>`
+  : "";
+
+// === allow checking even if stock = 0 ===
+const disabledAttr = "";  // <- always enabled
+
+// === progress bar color ===
+const percent = stock > 0 ? Math.round((stock / scale) * 100) : 0;
+const barColor = stock > 0 ? "bg-success" : "bg-danger";
+
+
+      const id = "item_chk_" + idx;
+      const isY3 = y3sItems.includes(item);
+      const itemLabelText = isY3 ? `${item} — (ONLY FOR Y3'S)` : item;
+
+      const row = document.createElement("div");
+      row.className = "item-row p-2 border rounded mb-2";
+
+      row.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center">
+
+          <div>
+            <input class="form-check-input item-checkbox"
+                   type="checkbox"
+                   value="${escapeHtml(item)}"
+                   id="${id}" ${disabledAttr}>
+
+            <label class="form-check-label ms-1 fw-bold" for="${id}">
+              ${escapeHtml(itemLabelText)}
+            </label>
+
+            <!-- Status: Available / Out of Stock -->
+            <div>${statusText}</div>
+
+            <!-- Visible only if stock >= 1 -->
+            ${stockLabel}
+          </div>
+
+          <div style="width:180px;">
+            <div class="progress" style="height:8px;">
+              <div class="progress-bar ${barColor}" style="width:${percent}%"></div>
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      container.appendChild(row);
+    });
+
+    // --- SEARCH FUNCTION ---
+    const searchInput = document.getElementById("itemsSearch");
+    searchInput.oninput = (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll("#itemsModalList .item-row").forEach(row => {
+        const label = (row.querySelector("label")?.textContent || "").toLowerCase();
+        row.style.display = label.includes(q) ? "" : "none";
+      });
+    };
+
+    // --- SELECT ALL (only items with stock > 0) ---
+    const selectAll = document.getElementById("selectAllItems");
+    selectAll.onchange = (e) => {
+      const checked = e.target.checked;
+      document.querySelectorAll("#itemsModalList .item-row").forEach(row => {
+        const chk = row.querySelector(".item-checkbox");
+        if (!chk) return;
+        if (!chk.disabled && row.style.display !== "none") {
+          chk.checked = checked;
+        }
+      });
+    };
+
+  }).getRunningStocks();
+}
+
+
+
+
+
+
+      // Open items modal
+      function openItemsModal() {
+        // rebuild in case currentItemMap changed
+        buildItemsModalList();
+        const modal = new bootstrap.Modal(document.getElementById('itemsModal'));
+        modal.show();
+      }
+
+      /// add single empty row
+function addRow() {
+  const tbody = document.getElementById('itemsBody');
+  const tr = document.createElement('tr');
+
+  // Always use clean manual input (no typedDescription)
+  const itemColumn = `
+                      <input type="text" class="form-control table-input description" id="removeNote" placeholder="Remove this if no more Entry"
+                      oninput="manualUnit(this)" required>
+  `;
+
+  tr.innerHTML = `
+    <td class="text-center">
+      <input type="checkbox" class="form-check-input row-select">
+    </td>
+    <td>
+      <input type="number" min="1" class="form-control table-input qty"
+             oninput="recalcRow(this)" required>
+    </td>
+    <td>
+      <input class="form-control table-input unit" readonly>
+    </td>
+    <td>${itemColumn}</td>
+    <td>
+      <input type="number" min="0.00" step="any" class="form-control table-input uprice" oninput="recalcRow(this)">
+
+    </td>
+    <td>
+      <input class="form-control table-input amount" readonly>
+    </td>
+  `;
+
+  tbody.appendChild(tr);
+}
+
+
+
+      // applySelectedItems: get checked items and create rows
+      function applySelectedItems() {
+        const checked = Array.from(document.querySelectorAll('#itemsModalList input.item-checkbox:checked'))
+          .map(i => i.value);
+        if (!checked || checked.length === 0) {
+          // close modal silently (or show small message)
+          const modalEl = document.getElementById('itemsModal');
+          bootstrap.Modal.getInstance(modalEl).hide();
+          return;
+        }
+
+        const tbody = document.getElementById('itemsBody');
+
+        checked.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td class="text-center"><input type="checkbox" class="form-check-input row-select"></td>
+            <td><input type="number" min="1" class="form-control table-input qty" value="0" oninput="recalcRow(this)" required></td>
+            <td><input class="form-control table-input unit" readonly></td>
+            <td><input class="form-control table-input description" value="${escapeHtml(item)}" readonly></td>
+            <td><input type="number" min="0.00" step="any" class="form-control table-input uprice" oninput="recalcRow(this)"></td>
+            <td><input class="form-control table-input amount" readonly></td>
+          `;
+          tbody.appendChild(tr);
+          setUnitForRow(tr, item);
+        });
+
+        // update totals
+        recalcTotal();
+
+        // uncheck selectAll and close modal
+        document.getElementById('selectAllItems').checked = false;
+        const modalEl = document.getElementById('itemsModal');
+        bootstrap.Modal.getInstance(modalEl).hide();
+      }
+
+      // set unit for a row given item name
+      function setUnitForRow(tr, itemName) {
+        const qty = parseFloat(tr.querySelector('.qty').value) || 1;
+        const unitField = tr.querySelector('.unit');
+        const baseUnit = currentItemMap[itemName] || "";
+        unitField.value = qty > 1 ? (unitPlural[baseUnit] || baseUnit) : baseUnit;
+      }
+
+      // manual unit for typed descriptions (special request)
+      function manualUnit(el) {
+        const tr = el.closest('tr');
+        const unitField = tr.querySelector('.unit');
+        unitField.removeAttribute('readonly');
+        unitField.value = "";
+      }
+
+
+      
+
+     function recalcRow(el) {
+  const tr = el.closest('tr');
+
+  const qty = Number.parseFloat(tr.querySelector('.qty').value) || 0;
+  const up  = Number.parseFloat(tr.querySelector('.uprice').value) || 0;
+  const desc = tr.querySelector('.description').value;
+
+  const baseUnit = currentItemMap[desc] || tr.querySelector('.unit').value || "";
+  const unitField = tr.querySelector('.unit');
+
+  unitField.value = qty > 1 ? (unitPlural[baseUnit] || baseUnit) : baseUnit;
+
+  tr.querySelector('.amount').value = (qty * up).toFixed(2);
+
+  recalcTotal();
+}
+
+
+
+      function recalcTotal() {
+        let total = 0;
+        document.querySelectorAll('#itemsBody .amount').forEach(a => total += parseFloat(a.value) || 0);
+        document.getElementById('total').value = total.toFixed(2);
+      }
+
+      function removeSelectedRows() {
+        document.querySelectorAll('#itemsBody tr').forEach(r => {
+          if (r.querySelector('.row-select').checked) r.remove();
+        });
+        recalcTotal();
+      }
+
+      function collectFormData() {
+        const items = [];
+        document.querySelectorAll('#itemsBody tr').forEach(r => {
+          const qty = r.querySelector('.qty').value || "";
+          const unit = r.querySelector('.unit').value || "";
+          const desc = r.querySelector('.description').value || "";
+          const up = r.querySelector('.uprice').value || "";
+          const amt = r.querySelector('.amount').value || "";
+          if (qty && desc) items.push({ qty, unit, description: desc, uprice: up, amount: amt });
+        });
+        return {
+          branch: document.getElementById('branch').value,
+          date: document.getElementById('date').value,
+          to: document.getElementById('to').value,
+          purpose: document.getElementById('purpose').value,
+          items,
+          total: document.getElementById('total').value,
+          note: document.getElementById('note').value,
+          requested_by: document.getElementById('requested_by').value,
+          requested_by_signature: document.getElementById('sigData').value || ''
+        };
+      }
+
+      // handle submit
+      function handleSubmit(e) {
+          e.preventDefault();
+           // ❗ Strong signature validation
+              const canvas = document.getElementById('sigCanvas');
+           const sigData = document.getElementById('sigData').value;
+
+            // BLOCK if signature is blank or not drawn
+            if (!sigData || isCanvasBlank(canvas)) {
+            const noSigModal = new bootstrap.Modal(document.getElementById('noSigModal'));
+            noSigModal.show();
+            return false;
+         }
+
+
+        
+
+        const data = collectFormData();
+        const modal = new bootstrap.Modal(document.getElementById('processModal'));
+        modal.show();
+
+        const progressBar = document.getElementById('progressBar');
+        progressBar.style.width = '0%';
+        progressBar.textContent = '0%';
+
+        setTimeout(() => {
+          progressBar.style.width = '95%';
+          progressBar.textContent = 'Processing...';
+        }, 200);
+
+        google.script.run
+          .withFailureHandler(err => {
+            progressBar.classList.remove('bg-success');
+            progressBar.classList.add('bg-danger');
+            progressBar.textContent = 'Error';
+            alert('Submission failed: ' + (err && err.message ? err.message : JSON.stringify(err)));
+          })
+          .withSuccessHandler(pdfUrl => {
+            progressBar.style.width = '100%';
+            progressBar.textContent = 'Done!';
+            resetForm();
+            clearSignaturePad();   // 🟦 fully clears signature pad
+            const toastEl = document.getElementById('successToast');
+            const toast = new bootstrap.Toast(toastEl, { delay: 1500 });
+            toast.show();
+
+            // show print option inside modal content
+            setTimeout(() => {
+              document.getElementById('modalContent').innerHTML = `
+                <div class="text-success mb-3">
+                  <i class="bi bi-check-circle-fill fs-2"></i>
+                  <h5 class="mt-2">Saved Successfully!</h5>
+                  <p class="fw-bold text-danger">📄 Print Before Close!!!</p>
+                </div>
+                <div class="d-flex justify-content-center gap-2">
+                  <button class="btn btn-success" id="printPdfBtn"><i class="bi bi-printer"></i> Print PDF</button>
+                </div>
+              `;
+              const printBtn = document.getElementById('printPdfBtn');
+              if (printBtn) {
+                printBtn.onclick = () => {
+                  const w = window.open(pdfUrl, '_blank', 'width=800,height=900');
+                  if (!w) {
+                    alert('Please allow pop-ups so the PDF can open.');
+                  } else {
+                    // try to auto print when loaded
+                    const checkLoaded = setInterval(() => {
+                      try {
+                        if (w.document.readyState === 'complete') {
+                          clearInterval(checkLoaded);
+                          w.focus();
+                          w.print();
+                        }
+                      } catch (err) {
+                        clearInterval(checkLoaded);
+                        w.focus();
+                        w.print();
+                      }
+                    }, 700);
+                  }
+                };
+              }
+                      // Auto-refresh entire application after 5 seconds
+                 setTimeout(() => {
+                     location.reload();
+                    }, 5000);
+            }, 600);
+          })
+          .saveAndCreatePdf(data);
+
+        return false;
+      }
+
+      function resetForm() {
+        document.getElementById('reqForm').reset();
+        document.getElementById('itemsBody').innerHTML = '';
+        addRow();
+        document.getElementById('total').value = '0.00';
+        document.getElementById('modalContent').innerHTML = `
+          <div class="text-center mb-3">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2">Saving and generating PDF...</p>
+          </div>
+          <div class="progress" style="height:20px">
+            <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width:0%">0%</div>
+          </div>
+        `;
+      }
+
+      // EXIT BUTTON WITH URL REDIRECT (no alert)
+      document.getElementById("exitMainBtn").onclick = () => {
+        const exitModal = new bootstrap.Modal(
+          document.getElementById("exitConfirmModal")
+        );
+        exitModal.show();
+        document.getElementById("confirmExitBtn").onclick = () => {
+          exitModal.hide();
+          try {
+            window.close();
+          } catch (e) {}
+          setTimeout(() => {
+            window.location.href = REDIRECT_URL;
+          }, 700);
+        };
+      };
+
+
+      // small helper to avoid XSS in inserted HTML text
+      function escapeHtml(text) {
+        return String(text)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+
+      // === Internet Connection Detector with Online/Offline Prompts ===
+      function showOfflineModal() {
+        const offlineModal = new bootstrap.Modal(
+          document.getElementById("offlineModal")
+        );
+        offlineModal.show();
+      }
+
+      function showOnlineModal() {
+        const onlineModal = new bootstrap.Modal(
+          document.getElementById("onlineModal")
+        );
+        onlineModal.show();
+      }
+
+      // Detect initial state
+      if (!navigator.onLine) {
+        showOfflineModal();
+      } else {
+        console.log("You are online.");
+      }
+
+      // Listen for changes
+      window.addEventListener("offline", () => {
+        showOfflineModal();
+      });
+
+      window.addEventListener("online", () => {
+        const offlineElement = document.getElementById("offlineModal");
+        const offlineInstance = bootstrap.Modal.getInstance(offlineElement);
+        if (offlineInstance) offlineInstance.hide();
+        showOnlineModal();
+      });
+       document.getElementById("closeBtn").addEventListener("click", () => {
+    const modal = bootstrap.Modal.getInstance(document.getElementById("noSigModal"));
+     if (modal) modal.hide();
+    });
+
+    </script>
+  </body>
+</html>
