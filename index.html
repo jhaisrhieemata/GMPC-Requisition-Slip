@@ -682,18 +682,35 @@
           'button[onclick="openItemsModal()"]'
         );
 
+        const itemsBodyEl = document.getElementById("itemsBody");
+
         if (purpose === "OFFICE SUPPLIES") {
-          itemsBody.innerHTML = "";
+          // When OFFICE SUPPLIES is selected, the UI uses the Choose Items modal.
+          // Hide manual add button and clear the table (do not add an empty row).
+          itemsBodyEl.innerHTML = "";
           addBtn.style.display = "none";
           chooseBtn.style.display = "";
+
+          // Open the Choose Items modal automatically for a smoother UX.
+          // Use a short timeout so DOM updates complete first.
+          setTimeout(() => {
+            try {
+              openItemsModal();
+            } catch (e) {
+              console.warn("Failed to open items modal:", e);
+            }
+          }, 150);
         } else {
+          // For other purposes, allow manual rows.
           addBtn.style.display = "";
           chooseBtn.style.display = "none";
         }
 
         // Reset all rows
-        document.getElementById("itemsBody").innerHTML = "";
-        addRow();
+        itemsBodyEl.innerHTML = "";
+        if (purpose !== "OFFICE SUPPLIES") {
+          addRow();
+        }
       });
 
       const purpose = document.getElementById("purpose");
