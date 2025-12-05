@@ -115,7 +115,7 @@ const ITEM_LIST = {
 // === FRONTEND LOADER ===
 function doGet() {
   return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('Requisition Form v14')
+    .setTitle('Requisition Form v15')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
@@ -318,4 +318,5 @@ function getRunningStocks() {
 
   return stockMap;
 }
+
 
