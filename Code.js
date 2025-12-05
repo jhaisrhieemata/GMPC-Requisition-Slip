@@ -1,7 +1,7 @@
 // === CONFIG ===
-const TEMPLATE_ID = '1bss96EkFlNl_GQ35E8PdxeZrgO-02yrJILtevKzE4SE'; // Google Doc template ID
-const FOLDER_ID = '1p-nYwiyl6XsXXV93_nJf5OoeXXmaWZWL'; // Folder for PDFs  
-const SHEET_FILE_ID = '1MVY1ucbqCTRQkoEEMaQc6tEI6u62psbup6iL023xGsI'; // Spreadsheet ID 
+const TEMPLATE_ID = "1bss96EkFlNl_GQ35E8PdxeZrgO-02yrJILtevKzE4SE"; // Google Doc template ID
+const FOLDER_ID = "1p-nYwiyl6XsXXV93_nJf5OoeXXmaWZWL"; // Folder for PDFs
+const SHEET_FILE_ID = "1MVY1ucbqCTRQkoEEMaQc6tEI6u62psbup6iL023xGsI"; // Spreadsheet ID
 const REDIRECT_URL = "https://sites.google.com/view/giantmotoprocorp";
 
 // === MASTER ITEM LIST ===
@@ -109,13 +109,13 @@ const ITEM_LIST = {
   ITM102: "STAMP PAD BLUE NO.2",
   ITM103: "STAMP PAD BLACK NO.2",
   ITM104: "DTR CARD",
-  ITM105: "FASTENER LONG"
+  ITM105: "FASTENER LONG",
 };
 
 // === FRONTEND LOADER ===
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('index')
-    .setTitle('Requisition Form v14')
+  return HtmlService.createHtmlOutputFromFile("index")
+    .setTitle("Requisition Form v15")
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
@@ -125,7 +125,7 @@ function include(filename) {
 
 // === MAIN SUBMISSION HANDLER (Optimized for Speed) ===
 function saveAndCreatePdf(data) {
-  if (!data || typeof data !== 'object') throw new Error('Invalid data.');
+  if (!data || typeof data !== "object") throw new Error("Invalid data.");
   if (!Array.isArray(data.items)) data.items = [];
 
   const ss = SpreadsheetApp.openById(SHEET_FILE_ID);
@@ -135,9 +135,23 @@ function saveAndCreatePdf(data) {
   // Create header only if new sheet
   if (sheet.getLastRow() === 0) {
     sheet.appendRow([
-      'Timestamp', 'Branch', 'Date', 'To', 'Purpose',
-      'ITEM_ID', 'Qty', 'Unit', 'Description', 'UPrice', 'Amount',
-      'Total', 'Requested By', 'Status', 'Release Date', 'Received By', 'PDF URL'
+      "Timestamp",
+      "Branch",
+      "Date",
+      "To",
+      "Purpose",
+      "ITEM_ID",
+      "Qty",
+      "Unit",
+      "Description",
+      "UPrice",
+      "Amount",
+      "Total",
+      "Requested By",
+      "Status",
+      "Release Date",
+      "Received By",
+      "PDF URL",
     ]);
   }
 
@@ -145,23 +159,39 @@ function saveAndCreatePdf(data) {
   const pdfUrl = createPdfFromTemplate(data, ts);
 
   // Prepare fast bulk append
-  const newRows = data.items.map(it => {
+  const newRows = data.items.map((it) => {
     const itemId = findItemId(it.description);
     return [
-      ts, data.branch, data.date, data.to, data.purpose,
-      itemId, it.qty, it.unit, it.description, it.uprice, it.amount,
-      data.total, data.requested_by, 'Pending', '', '', pdfUrl
+      ts,
+      data.branch,
+      data.date,
+      data.to,
+      data.purpose,
+      itemId,
+      it.qty,
+      it.unit,
+      it.description,
+      it.uprice,
+      it.amount,
+      data.total,
+      data.requested_by,
+      "Pending",
+      "",
+      "",
+      pdfUrl,
     ];
   });
 
   // Write all items in one call (faster)
   if (newRows.length > 0) {
-    sheet.getRange(sheet.getLastRow() + 1, 1, newRows.length, newRows[0].length).setValues(newRows);
+    sheet
+      .getRange(sheet.getLastRow() + 1, 1, newRows.length, newRows[0].length)
+      .setValues(newRows);
   }
 
   // Try to schedule SUMMARY generation (non-blocking)
   try {
-    ScriptApp.newTrigger('generateMasterSummary')
+    ScriptApp.newTrigger("generateMasterSummary")
       .timeBased()
       .after(1000)
       .create();
@@ -174,49 +204,61 @@ function saveAndCreatePdf(data) {
 
 // === GET SHEET NAME BY PURPOSE/BRANCH ===
 function getSheetNameByPurpose(purpose, branch) {
-  const p = purpose ? purpose.toUpperCase() : '';
-  if (p === 'SPECIAL REQUEST') return 'SPECIAL REQUEST';
-  return branch ? branch.trim().toUpperCase() : 'GENERAL';
+  const p = purpose ? purpose.toUpperCase() : "";
+  if (p === "SPECIAL REQUEST") return "SPECIAL REQUEST";
+  return branch ? branch.trim().toUpperCase() : "GENERAL";
 }
 
 // === FIND ITEM ID ===
 function findItemId(description) {
-  if (!description) return '';
+  if (!description) return "";
   const d = description.toString().trim().toUpperCase();
   for (let id in ITEM_LIST) {
     if (ITEM_LIST[id].toUpperCase() === d) return id;
   }
-  return '';
+  return "";
 }
 
 // === FAST PDF CREATION (no external API, lightweight) ===
 function createPdfFromTemplate(data, timestamp) {
   const templateFile = DriveApp.getFileById(TEMPLATE_ID);
-  const copy = templateFile.makeCopy(`Requisition ${Utilities.formatDate(timestamp, "Asia/Manila", "yyyy-MM-dd HH:mm:ss")}`);
+  const copy = templateFile.makeCopy(
+    `Requisition ${Utilities.formatDate(
+      timestamp,
+      "Asia/Manila",
+      "yyyy-MM-dd HH:mm:ss"
+    )}`
+  );
 
   const doc = DocumentApp.openById(copy.getId());
   const body = doc.getBody();
 
   try {
-    body.replaceText('{{BRANCH}}', data.branch || '');
-    body.replaceText('{{DATE}}', data.date || '');
-    body.replaceText('{{TO}}', data.to || '');
-    body.replaceText('{{PURPOSE}}', data.purpose || '');
-    body.replaceText('{{TOTAL}}', data.total || '');
-    body.replaceText('{{NOTES}}', data.note || '');
-    body.replaceText('{{REQUESTED_BY}}', data.requested_by || '');
+    body.replaceText("{{BRANCH}}", data.branch || "");
+    body.replaceText("{{DATE}}", data.date || "");
+    body.replaceText("{{TO}}", data.to || "");
+    body.replaceText("{{PURPOSE}}", data.purpose || "");
+    body.replaceText("{{TOTAL}}", data.total || "");
+    body.replaceText("{{NOTES}}", data.note || "");
+    body.replaceText("{{REQUESTED_BY}}", data.requested_by || "");
 
     // Insert items table
-    const search = body.findText('{{ITEMS}}');
+    const search = body.findText("{{ITEMS}}");
     if (search) {
       const element = search.getElement();
       const parent = element.getParent();
 
-      const tableData = [['Qty', 'Unit', 'Description', 'UPrice', 'Amount']];
-      (data.items || []).forEach(it => {
-        tableData.push([it.qty || '', it.unit || '', it.description || '', it.uprice || '', it.amount || '']);
+      const tableData = [["Qty", "Unit", "Description", "UPrice", "Amount"]];
+      (data.items || []).forEach((it) => {
+        tableData.push([
+          it.qty || "",
+          it.unit || "",
+          it.description || "",
+          it.uprice || "",
+          it.amount || "",
+        ]);
       });
-      tableData.push(['', '', '', 'Total', data.total || '']);
+      tableData.push(["", "", "", "Total", data.total || ""]);
 
       const table = body.insertTable(body.getChildIndex(parent) + 1, tableData);
       table.setBorderWidth(1);
@@ -226,7 +268,11 @@ function createPdfFromTemplate(data, timestamp) {
         const row = table.getRow(i);
         for (let j = 0; j < row.getNumCells(); j++) {
           const cell = row.getCell(j);
-          cell.setPaddingTop(3).setPaddingBottom(3).setPaddingLeft(5).setPaddingRight(5);
+          cell
+            .setPaddingTop(3)
+            .setPaddingBottom(3)
+            .setPaddingLeft(5)
+            .setPaddingRight(5);
           try {
             if (j === 0) cell.setWidth(40);
             if (j === 1) cell.setWidth(60);
@@ -235,12 +281,18 @@ function createPdfFromTemplate(data, timestamp) {
             if (j === 4) cell.setWidth(80);
           } catch (e) {}
           const text = cell.getChild(0);
-          if (text && text.getType && text.getType() === DocumentApp.ElementType.PARAGRAPH) {
+          if (
+            text &&
+            text.getType &&
+            text.getType() === DocumentApp.ElementType.PARAGRAPH
+          ) {
             const para = text.asParagraph();
             if (i === 0) {
               para.setAlignment(DocumentApp.HorizontalAlignment.CENTER);
               para.setBold(true);
-              try { cell.setBackgroundColor('#f0f0f0'); } catch (e) {}
+              try {
+                cell.setBackgroundColor("#f0f0f0");
+              } catch (e) {}
             } else if ([0, 1, 3, 4].includes(j)) {
               para.setAlignment(DocumentApp.HorizontalAlignment.CENTER);
             } else {
@@ -249,43 +301,60 @@ function createPdfFromTemplate(data, timestamp) {
           }
         }
       }
-      element.asText().setText('');
+      element.asText().setText("");
     }
 
     // Signature insertion
     if (data.requested_by_signature) {
-      const parts = data.requested_by_signature.split(',');
+      const parts = data.requested_by_signature.split(",");
       const base64Signature = parts.length > 1 ? parts[1] : parts[0];
       const base64Data = base64Signature.trim();
       if (base64Data) {
-        const imgBytes = Utilities.base64Decode(base64Data.replace(/^data:image\/png;base64,/, ''));
-        const sigBlob = Utilities.newBlob(imgBytes, 'image/png', 'signature.png');
-        const searchSig = body.findText('{{REQUESTED_BY_SIGNATURE}}');
+        const imgBytes = Utilities.base64Decode(
+          base64Data.replace(/^data:image\/png;base64,/, "")
+        );
+        const sigBlob = Utilities.newBlob(
+          imgBytes,
+          "image/png",
+          "signature.png"
+        );
+        const searchSig = body.findText("{{REQUESTED_BY_SIGNATURE}}");
         if (searchSig) {
           const el = searchSig.getElement();
           const parent = el.getParent();
           const insertIndex = parent.getChildIndex(el);
-          el.asText().setText('');
+          el.asText().setText("");
           const spacerBlob = Utilities.newBlob(
-            Utilities.base64Decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII='),
-            'image/png',
-            'spacer.png'
+            Utilities.base64Decode(
+              "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA1BMVEUAAACnej3aAAAAAXRSTlMAQObYZgAAAApJREFUCNdjYAAAAAIAAeIhvDMAAAAASUVORK5CYII="
+            ),
+            "image/png",
+            "spacer.png"
           );
-          parent.insertInlineImage(insertIndex, spacerBlob).setWidth(95).setHeight(8);
-          parent.insertInlineImage(insertIndex + 1, sigBlob).setWidth(150).setHeight(55);
+          parent
+            .insertInlineImage(insertIndex, spacerBlob)
+            .setWidth(95)
+            .setHeight(8);
+          parent
+            .insertInlineImage(insertIndex + 1, sigBlob)
+            .setWidth(150)
+            .setHeight(55);
         }
       }
     }
 
     doc.saveAndClose();
   } catch (e) {
-    Logger.log('PDF generation error: ' + e);
+    Logger.log("PDF generation error: " + e);
   }
 
-  const pdfBlob = copy.getBlob().getAs('application/pdf');
+  const pdfBlob = copy.getBlob().getAs("application/pdf");
   const folder = DriveApp.getFolderById(FOLDER_ID);
-  const pdfFile = folder.createFile(pdfBlob).setName(copy.getName() + '.pdf');
-  pdfFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  const pdfFile = folder.createFile(pdfBlob).setName(copy.getName() + ".pdf");
+  pdfFile.setSharing(
+    DriveApp.Access.ANYONE_WITH_LINK,
+    DriveApp.Permission.VIEW
+  );
 
   // Trash temp doc
   DriveApp.getFileById(copy.getId()).setTrashed(true);
@@ -308,7 +377,7 @@ function getRunningStocks() {
   const data = sh.getRange(2, 1, lastRow - 1, 3).getValues();
   const stockMap = {};
 
-  data.forEach(r => {
+  data.forEach((r) => {
     const description = (r[1] || "").toString().trim();
     const stock = Number(r[2]) || 0;
     if (description) {
@@ -318,4 +387,3 @@ function getRunningStocks() {
 
   return stockMap;
 }
-
