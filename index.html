@@ -168,37 +168,7 @@
                 <label class="form-label">Branch/Department</label>
                 <select class="form-select" id="branch" required>
                   <option value=""></option>
-                  <option>ADMIN</option>
-                  <option>WAREHOUSE</option>
-                  <option>LAGTANG</option>
-                  <option>V-RAMA</option>
-                  <option>BULACAO</option>
-                  <option>Y3S TALISAY</option>
-                  <option>MINGLANILLA</option>
-                  <option>Y3S PARDO</option>
-                  <option>LAPU-LAPU</option>
-                  <option>BACAYAN</option>
-                  <option>SAN FERNANDO MB</option>
-                  <option>Y3S SAN FERNANDO</option>
-                  <option>LILOAN</option>
-                  <option>CORDOVA MB</option>
-                  <option>Y3S CORDOVA</option>
-                  <option>CLARIN</option>
-                  <option>TOLEDO</option>
-                  <option>UBAY</option>
-                  <option>CARMEN</option>
-                  <option>TUBIGON</option>
-                  <option>TALIBON</option>
-                  <option>BOGO</option>
-                  <option>BALAMBAN</option>
-                  <option>Y3S BARILI</option>
-                  <option>BARILI MB</option>
-                  <option>SIERRA BULLONES</option>
-                  <option>PITOGO</option>
-                  <option>TAYUD CONSOLACION</option>
-                  <option>PINAMUNGAJAN</option>
-                  <option>CANDIJAY</option>
-                  <option>YATI LILOAN</option>
+                  <!-- Branch options are loaded dynamically from the spreadsheet 'Branch List' sheet -->
                 </select>
               </div>
               <div class="col-md-6">
@@ -729,7 +699,30 @@
         addRow();
         initSignaturePad();
         buildItemsModalList(); // populate modal list
+        loadBranchList(); // populate branch dropdown from sheet
       });
+
+      // fetch branch list from server (Branch List sheet column A)
+      function loadBranchList() {
+        google.script.run
+          .withSuccessHandler(function (branches) {
+            const sel = document.getElementById("branch");
+            // remove all options except the first placeholder
+            while (sel.options.length > 1) sel.remove(1);
+
+            if (!branches || branches.length === 0) return;
+            branches.forEach((b) => {
+              const opt = document.createElement("option");
+              opt.value = b;
+              opt.textContent = b;
+              sel.appendChild(opt);
+            });
+          })
+          .withFailureHandler(function (err) {
+            console.warn("Failed to load branch list:", err);
+          })
+          .getBranchList();
+      }
 
       // --- Signature Pad ---
       function initSignaturePad() {

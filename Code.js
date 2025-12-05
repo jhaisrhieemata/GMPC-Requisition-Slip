@@ -387,3 +387,26 @@ function getRunningStocks() {
 
   return stockMap;
 }
+
+// === BRANCH LIST FETCHER ===
+function getBranchList() {
+  const ss = SpreadsheetApp.openById(SHEET_FILE_ID);
+  const sh = ss.getSheetByName("Branch List");
+  if (!sh) return [];
+
+  const lastRow = sh.getLastRow();
+  if (lastRow < 2) return [];
+
+  // Branch header is in column B (index 2). Read from row 2, column 2.
+  const values = sh.getRange(2, 2, lastRow - 1, 1).getValues();
+  const branches = [];
+  const seen = {};
+  values.forEach((r) => {
+    const v = (r[0] || "").toString().trim();
+    if (v && !seen[v]) {
+      branches.push(v);
+      seen[v] = true;
+    }
+  });
+  return branches;
+}
