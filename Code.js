@@ -4,114 +4,6 @@ const FOLDER_ID = "1p-nYwiyl6XsXXV93_nJf5OoeXXmaWZWL"; // Folder for PDFs
 const SHEET_FILE_ID = "1MVY1ucbqCTRQkoEEMaQc6tEI6u62psbup6iL023xGsI"; // Spreadsheet ID
 const REDIRECT_URL = "https://sites.google.com/view/giantmotoprocorp";
 
-// === MASTER ITEM LIST ===
-const ITEM_LIST = {
-  ITM001: "BOND PAPER (LONG)",
-  ITM002: "BOND PAPER (SHORT)",
-  ITM003: "BOND PAPER A4",
-  ITM004: "BOND PAPER NEWSPRINT (SHORT)",
-  ITM005: "BOND PAPER NEWSPRINT (LONG)",
-  ITM006: "VELLUM PAPER",
-  ITM007: "LOGBOOK VALIANT RECORD (150 & 300P PAGES)",
-  ITM008: "NOTEBOOK",
-  ITM009: "CARBON PAPER (LONG BLUE)",
-  ITM010: "BROWN ENVELOPE (LONG)",
-  ITM011: "BROWN ENVELOPE (SHORT)",
-  ITM012: "BROWN FOLDER (LONG)",
-  ITM013: "BROWN FOLDER (SHORT)",
-  ITM014: "WHITE FOLDER (LONG)",
-  ITM015: "WHITE FOLDER (SHORT)",
-  ITM016: "LETTER SHORT WHITE ENVELOPE",
-  ITM017: "LETTER LONG WHITE ENVELOPE",
-  ITM018: "CARD HOLDER",
-  ITM019: "FLEXSTICK BLACK BALLPEN (0.5)",
-  ITM020: "FLEXSTICK RED BALLPEN (0.5)",
-  ITM021: "WYTEBORD MARKER PILOT (BLACK)",
-  ITM022: "WYTEBORD MARKER PILOT (RED)",
-  ITM023: "HIGHLIGHTER",
-  ITM024: "PENCIL",
-  ITM025: "SHARPENER",
-  ITM026: "ERASER",
-  ITM027: "CORRECTION TAPE",
-  ITM028: "CANDIES",
-  ITM029: "PUNCHER",
-  ITM030: "STAPLER",
-  ITM031: "SCISSORS",
-  ITM032: "GLUE",
-  ITM033: "RULER",
-  ITM034: "CALCULATOR MX-12B",
-  ITM035: "TAPE DISPENSER BIG",
-  ITM036: "SCOTCH TAPE (1 INCH)",
-  ITM037: "SCOTCH TAPE (2 INCH)",
-  ITM038: "MASKING TAPE",
-  ITM039: "PACKAGING TAPE BROWN",
-  ITM040: "DOUBLE-SIDED TAPE (1 INCH)",
-  ITM041: "DUCT TAPE",
-  ITM043: "TYPEWRITER BLACK NYLON",
-  ITM044: "INK EPSON 003 (YELLOW)",
-  ITM045: "INK EPSON 003 (MAGENTA)",
-  ITM046: "INK EPSON 003 (CYAN)",
-  ITM047: "INK EPSON 003 (BLACK)",
-  ITM048: "INK BROTHER BT5000Y",
-  ITM049: "INK BROTHER BT5000M",
-  ITM050: "INK BROTHER BT5000C",
-  ITM051: "INK BROTHER BTD60BK",
-  ITM052: "INK HP (YELLOW)",
-  ITM053: "INK HP (MAGENTA)",
-  ITM054: "INK HP (CYAN)",
-  ITM055: "INK HP (BLACK)",
-  ITM056: "PRIDE SOAP POWDER",
-  ITM057: "STAMP PAD INK BLACK 30ML",
-  ITM058: "STAMP PAD INK BLUE 30ML",
-  ITM059: "STAMP PAD INK RED 30ML",
-  ITM060: "SUPER COLOR MARKER PILOT (BLACK)",
-  ITM061: "JOY",
-  ITM062: "DOWNY",
-  ITM063: "SAFEGUARD SOAP",
-  ITM064: "STICKY NOTES 2X2 A02",
-  ITM065: "STICKY NOTES A03",
-  ITM066: "STICKY NOTES A05",
-  ITM067: "FASTENER",
-  ITM068: "PAPER CLIPS 50MM",
-  ITM069: "PAPER CLIPS JUMBO",
-  ITM070: "BINDER CLIPS 2 INCHES",
-  ITM071: "BINDER CLIPS 1 5/8 41MM",
-  ITM072: "BINDER CLIPS 1 1/4 32MM",
-  ITM073: "BINDER CLIPS 1 INCHES",
-  ITM074: "STAPLE WIRE #35",
-  ITM075: "STAPLE WIRE #10-M",
-  ITM076: "RUBBER BAND ROUND RB-350",
-  ITM077: "CABLE TIE",
-  ITM078: "COFFEE CUPS",
-  ITM079: "DRINKING CUPS",
-  ITM080: "COFFEE STICK",
-  ITM081: "CREAMER",
-  ITM082: "BROWN SUGAR",
-  ITM083: "STIRRER",
-  ITM084: "SUPER COLOR MARKER REFILL INK (BLACK)",
-  ITM085: "WYTEBORD MARKER REFILL INK PILOT (BLACK)",
-  ITM086: "WYTEBORD MARKER REFILL INK PILOT (RED)",
-  ITM087: "ALBATROSS",
-  ITM088: "ZONROX (ORIGINAL)",
-  ITM089: "ZONROX (COLORSAFE)",
-  ITM090: "GLASS CLEANER",
-  ITM091: "HANDWASH",
-  ITM092: "RAGS",
-  ITM093: "TRASH BAG (XXL)",
-  ITM094: "TRASH BAG (XL)",
-  ITM095: "TRASH BAG (LARGE)",
-  ITM096: "TRASH BAG (MEDIUM)",
-  ITM097: "TRASH BAG (SMALL)",
-  ITM098: "TISSUE PAPER",
-  ITM099: "INK EPSON SET",
-  ITM100: "INK BROTHER SET",
-  ITM101: "INK HP SET",
-  ITM102: "STAMP PAD BLUE NO.2",
-  ITM103: "STAMP PAD BLACK NO.2",
-  ITM104: "DTR CARD",
-  ITM105: "FASTENER LONG",
-};
-
 // === FRONTEND LOADER ===
 function doGet() {
   return HtmlService.createHtmlOutputFromFile("index")
@@ -209,12 +101,23 @@ function getSheetNameByPurpose(purpose, branch) {
   return branch ? branch.trim().toUpperCase() : "GENERAL";
 }
 
-// === FIND ITEM ID ===
+// === FIND ITEM ID (FROM REAL-TIME STOCKS) ===
 function findItemId(description) {
   if (!description) return "";
   const d = description.toString().trim().toUpperCase();
-  for (let id in ITEM_LIST) {
-    if (ITEM_LIST[id].toUpperCase() === d) return id;
+  const ss = SpreadsheetApp.openById(SHEET_FILE_ID);
+  const sh = ss.getSheetByName("REAL-TIME STOCKS");
+  if (!sh) return "";
+
+  const lastRow = sh.getLastRow();
+  if (lastRow < 2) return "";
+
+  // Search column B (Description) for a match, return column A (Item_ID)
+  const data = sh.getRange(2, 1, lastRow - 1, 2).getValues();
+  for (let i = 0; i < data.length; i++) {
+    const item_id = (data[i][0] || "").toString().trim();
+    const desc = (data[i][1] || "").toString().trim().toUpperCase();
+    if (desc === d) return item_id;
   }
   return "";
 }
@@ -386,6 +289,30 @@ function getRunningStocks() {
   });
 
   return stockMap;
+}
+
+// === FULL REAL-TIME STOCKS (with unit) ===
+function getRealTimeStocksFull() {
+  const ss = SpreadsheetApp.openById(SHEET_FILE_ID);
+  const sh = ss.getSheetByName("REAL-TIME STOCKS");
+  if (!sh) return [];
+
+  const lastRow = sh.getLastRow();
+  if (lastRow < 2) return [];
+
+  // Read columns A=Item_ID, B=Description, C=Real-Time Stocks, D=Unit
+  const data = sh.getRange(2, 1, lastRow - 1, 4).getValues();
+  const rows = [];
+  data.forEach((r) => {
+    const item_id = (r[0] || "").toString().trim();
+    const description = (r[1] || "").toString().trim();
+    const stock = Number(r[2]) || 0;
+    const unit = (r[3] || "").toString().trim().toUpperCase();
+    if (description) {
+      rows.push({ item_id, description, stock, unit });
+    }
+  });
+  return rows;
 }
 
 // === BRANCH LIST FETCHER ===
