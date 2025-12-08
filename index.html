@@ -168,37 +168,7 @@
                 <label class="form-label">Branch/Department</label>
                 <select class="form-select" id="branch" required>
                   <option value=""></option>
-                  <option>ADMIN</option>
-                  <option>WAREHOUSE</option>
-                  <option>LAGTANG</option>
-                  <option>V-RAMA</option>
-                  <option>BULACAO</option>
-                  <option>Y3S TALISAY</option>
-                  <option>MINGLANILLA</option>
-                  <option>Y3S PARDO</option>
-                  <option>LAPU-LAPU</option>
-                  <option>BACAYAN</option>
-                  <option>SAN FERNANDO MB</option>
-                  <option>Y3S SAN FERNANDO</option>
-                  <option>LILOAN</option>
-                  <option>CORDOVA MB</option>
-                  <option>Y3S CORDOVA</option>
-                  <option>CLARIN</option>
-                  <option>TOLEDO</option>
-                  <option>UBAY</option>
-                  <option>CARMEN</option>
-                  <option>TUBIGON</option>
-                  <option>TALIBON</option>
-                  <option>BOGO</option>
-                  <option>BALAMBAN</option>
-                  <option>Y3S BARILI</option>
-                  <option>BARILI MB</option>
-                  <option>SIERRA BULLONES</option>
-                  <option>PITOGO</option>
-                  <option>TAYUD CONSOLACION</option>
-                  <option>PINAMUNGAJAN</option>
-                  <option>CANDIJAY</option>
-                  <option>YATI LILOAN</option>
+                  <!-- Branch options are loaded dynamically from the spreadsheet 'Branch List' sheet -->
                 </select>
               </div>
               <div class="col-md-6">
@@ -548,117 +518,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-      // === Item categories map (flat OFFICE SUPPLIES) ===
-      const itemCategories = {
-        "OFFICE SUPPLIES": {
-          "BOND PAPER (LONG)": "REAM",
-          "BOND PAPER (SHORT)": "REAM",
-          "BOND PAPER A4": "REAM",
-          "BOND PAPER NEWSPRINT (SHORT)": "REAM",
-          "BOND PAPER NEWSPRINT (LONG)": "REAM",
-          "VELLUM PAPER": "PC",
-          "LOGBOOK VALIANT RECORD (150 & 300P PAGES)": "PC",
-          NOTEBOOK: "PC",
-          "CARBON PAPER (LONG BLUE)": "PC",
-          "BROWN ENVELOPE (LONG)": "PC",
-          "BROWN ENVELOPE (SHORT)": "PC",
-          "BROWN FOLDER (LONG)": "PC",
-          "BROWN FOLDER (SHORT)": "PC",
-          "WHITE FOLDER (LONG)": "PC",
-          "WHITE FOLDER (SHORT)": "PC",
-          "LETTER SHORT WHITE ENVELOPE": "PC",
-          "LETTER LONG WHITE ENVELOPE": "PC",
-          "CARD HOLDER": "PC",
-          "FLEXSTICK BLACK BALLPEN (0.5)": "PC",
-          "FLEXSTICK RED BALLPEN (0.5)": "PC",
-          "WYTEBORD MARKER PILOT (BLACK)": "PC",
-          "WYTEBORD MARKER PILOT (RED)": "PC",
-          HIGHLIGHTER: "PC",
-          PENCIL: "PC",
-          SHARPENER: "PC",
-          ERASER: "PC",
-          "CORRECTION TAPE": "PC",
-          CANDIES: "PC",
-          PUNCHER: "PC",
-          STAPLER: "PC",
-          SCISSORS: "PC",
-          GLUE: "PC",
-          RULER: "PC",
-          "CALCULATOR MX-12B": "PC",
-          "TAPE DISPENSER BIG": "PC",
-          "SCOTCH TAPE (1 INCH)": "PC",
-          "SCOTCH TAPE (2 INCH)": "PC",
-          "MASKING TAPE": "PC",
-          "PACKAGING TAPE BROWN": "PC",
-          "DOUBLE-SIDED TAPE (1 INCH)": "PC",
-          "DUCT TAPE": "PC",
-          "TYPEWRITER BLACK NYLON": "PC",
-          "INK EPSON 003 (YELLOW)": "PC",
-          "INK EPSON 003 (MAGENTA)": "PC",
-          "INK EPSON 003 (CYAN)": "PC",
-          "INK EPSON 003 (BLACK)": "PC",
-          "INK BROTHER BT5000Y": "PC",
-          "INK BROTHER BT5000M": "PC",
-          "INK BROTHER BT5000C": "PC",
-          "INK BROTHER BTD60BK": "PC",
-          "INK HP (YELLOW)": "PC",
-          "INK HP (MAGENTA)": "PC",
-          "INK HP (CYAN)": "PC",
-          "INK HP (BLACK)": "PC",
-          "PRIDE SOAP POWDER": "PC",
-          "STAMP PAD INK BLACK 30ML": "PC",
-          "STAMP PAD INK BLUE 30ML": "PC",
-          "STAMP PAD INK RED 30ML": "PC",
-          "SUPER COLOR MARKER PILOT (BLACK)": "PC",
-          JOY: "PC",
-          DOWNY: "PC",
-          "SAFEGUARD SOAP": "PC",
-          "STICKY NOTES 2X2 A02": "PAD",
-          "STICKY NOTES A03": "PAD",
-          "STICKY NOTES A05": "PAD",
-          FASTENER: "BOX",
-          "PAPER CLIPS 50MM": "BOX",
-          "PAPER CLIPS JUMBO": "BOX",
-          "BINDER CLIPS 2 INCHES": "BOX",
-          "BINDER CLIPS 1 5/8 41MM": "BOX",
-          "BINDER CLIPS 1 1/4 32MM": "BOX",
-          "BINDER CLIPS 1 INCHES": "BOX",
-          "STAPLE WIRE #35": "BOX",
-          "STAPLE WIRE #10-M": "BOX",
-          "RUBBER BAND ROUND RB-350": "PACK",
-          "CABLE TIE": "PACK",
-          "COFFEE CUPS": "PACK",
-          "DRINKING CUPS": "PACK",
-          "COFFEE STICK": "PACK",
-          CREAMER: "PACK",
-          "BROWN SUGAR": "PACK",
-          STIRRER: "PC",
-          "SUPER COLOR MARKER REFILL INK (BLACK)": "BTL",
-          "WYTEBORD MARKER REFILL INK PILOT (BLACK)": "BTL",
-          "WYTEBORD MARKER REFILL INK PILOT (RED)": "BTL",
-          ALBATROSS: "PC",
-          "ZONROX (ORIGINAL)": "BTL",
-          "ZONROX (COLORSAFE)": "BTL",
-          "GLASS CLEANER": "BTL",
-          HANDWASH: "BTL",
-          RAGS: "BDL",
-          "TRASH BAG (XXL)": "ROLL",
-          "TRASH BAG (XL)": "ROLL",
-          "TRASH BAG (LARGE)": "ROLL",
-          "TRASH BAG (MEDIUM)": "ROLL",
-          "TRASH BAG (SMALL)": "ROLL",
-          "TISSUE PAPER": "ROLL",
-          "INK EPSON SET": "SET",
-          "INK BROTHER SET": "SET",
-          "INK HP SET": "SET",
-          "STAMP PAD BLUE NO.2": "PC",
-          "STAMP PAD BLACK NO.2": "PC",
-          "DTR CARD": "PC",
-          "FASTENER LONG": "BOX",
-        },
-      };
+      // Items and units are loaded dynamically from the spreadsheet `REAL-TIME STOCKS`.
+      // Each row should contain: Item_ID (col A), Description (col B), Real-Time Stocks (col C), Unit (col D)
+      let itemsFromSheet = []; // array of {item_id, description, stock, unit}
 
-      const unitPlural = {
+      const defaultUnitPlural = {
         REAM: "REAMS",
         PC: "PCS",
         PAD: "PADS",
@@ -671,9 +535,39 @@
         UNIT: "UNITS",
       };
 
-      // current item map & mode
-      let currentItemMap = itemCategories["OFFICE SUPPLIES"];
+      // dynamic unitPlural mapping (populated from sheet with sensible fallbacks)
+      let unitPlural = Object.assign({}, defaultUnitPlural);
+
+      // current item map: description -> base unit (e.g. 'PC', 'REAM')
+      let currentItemMap = {};
       let useInputField = false;
+
+      // Load items + units from server
+      function loadItemsFromSheet(cb) {
+        google.script.run
+          .withSuccessHandler(function (rows) {
+            itemsFromSheet = rows || [];
+            currentItemMap = {};
+            itemsFromSheet.forEach((r) => {
+              const desc = (r.description || "").toString().trim();
+              const unit = (r.unit || "").toString().trim().toUpperCase();
+              if (desc) {
+                currentItemMap[desc] = unit;
+              }
+              if (unit && !unitPlural[unit]) {
+                unitPlural[unit] =
+                  defaultUnitPlural[unit] ||
+                  (unit.endsWith("S") ? unit : unit + "S");
+              }
+            });
+            if (typeof cb === "function") cb();
+          })
+          .withFailureHandler(function (err) {
+            console.warn("Failed to load items from sheet:", err);
+            if (typeof cb === "function") cb();
+          })
+          .getRealTimeStocksFull();
+      }
 
       document.getElementById("purpose").addEventListener("change", () => {
         const purpose = document.getElementById("purpose").value;
@@ -729,7 +623,30 @@
         addRow();
         initSignaturePad();
         buildItemsModalList(); // populate modal list
+        loadBranchList(); // populate branch dropdown from sheet
       });
+
+      // fetch branch list from server (Branch List sheet column A)
+      function loadBranchList() {
+        google.script.run
+          .withSuccessHandler(function (branches) {
+            const sel = document.getElementById("branch");
+            // remove all options except the first placeholder
+            while (sel.options.length > 1) sel.remove(1);
+
+            if (!branches || branches.length === 0) return;
+            branches.forEach((b) => {
+              const opt = document.createElement("option");
+              opt.value = b;
+              opt.textContent = b;
+              sel.appendChild(opt);
+            });
+          })
+          .withFailureHandler(function (err) {
+            console.warn("Failed to load branch list:", err);
+          })
+          .getBranchList();
+      }
 
       // --- Signature Pad ---
       function initSignaturePad() {
@@ -847,61 +764,63 @@
         const container = document.getElementById("itemsModalList");
         container.innerHTML = '<p class="text-center mt-2">Loading items…</p>';
 
-        google.script.run
-          .withSuccessHandler((stockMap) => {
-            container.innerHTML = "";
+        // Ensure itemsFromSheet is populated
+        const render = () => {
+          container.innerHTML = "";
 
-            const y3sItems = [
-              "ALBATROSS",
-              "BROWN SUGAR",
-              "CANDIES",
-              "COFFEE CUPS",
-              "COFFEE STICK",
-              "CREAMER",
-              "DRINKING CUPS",
-              "GLASS CLEANER",
-              "STIRRER",
-              "TISSUE PAPER",
-            ];
+          const y3sItems = [
+            "ALBATROSS",
+            "BROWN SUGAR",
+            "CANDIES",
+            "COFFEE CUPS",
+            "COFFEE STICK",
+            "CREAMER",
+            "DRINKING CUPS",
+            "GLASS CLEANER",
+            "STIRRER",
+            "TISSUE PAPER",
+          ];
 
-            const allItems = Object.keys(
-              itemCategories["OFFICE SUPPLIES"]
-            ).sort();
+          const allItems = itemsFromSheet
+            .map((r) => r.description)
+            .filter(Boolean)
+            .sort();
 
-            // scale for bar percentages
-            const stocksArray = Object.values(stockMap).filter((n) => n >= 0);
-            const scale = stocksArray.length ? Math.max(...stocksArray) : 50;
+          // scale for bar percentages
+          const stocksArray = itemsFromSheet
+            .map((r) => Number(r.stock) || 0)
+            .filter((n) => n >= 0);
+          const scale = stocksArray.length ? Math.max(...stocksArray) : 50;
 
-            allItems.forEach((item, idx) => {
-              const stock = Number(stockMap[item] ?? 0);
+          allItems.forEach((item, idx) => {
+            const rec =
+              itemsFromSheet.find((r) => r.description === item) || {};
+            const stock = Number(rec.stock) || 0;
 
-              // === availability status text ===
-              const statusText =
-                stock > 0
-                  ? `<span class="text-success fw-bold">Available</span>`
-                  : `<span class="text-danger fw-bold">Out of Stock</span>`;
+            // === availability status text ===
+            const statusText =
+              stock > 0
+                ? `<span class="text-success fw-bold">Available</span>`
+                : `<span class="text-danger fw-bold">Out of Stock</span>`;
 
-              // === hide “Stock: 0” but show Stock: 1+ ===
-              const stockLabel =
-                stock > 0
-                  ? `<div class="small text-muted">Stock: <strong>${stock}</strong></div>`
-                  : "";
+            const stockLabel =
+              stock > 0
+                ? `<div class="small text-muted">Stock: <strong>${stock}</strong></div>`
+                : "";
 
-              // === allow checking even if stock = 0 ===
-              const disabledAttr = ""; // <- always enabled
+            const disabledAttr = ""; // always enabled
 
-              // === progress bar color ===
-              const percent = stock > 0 ? Math.round((stock / scale) * 100) : 0;
-              const barColor = stock > 0 ? "bg-success" : "bg-danger";
+            const percent = stock > 0 ? Math.round((stock / scale) * 100) : 0;
+            const barColor = stock > 0 ? "bg-success" : "bg-danger";
 
-              const id = "item_chk_" + idx;
-              const isY3 = y3sItems.includes(item);
-              const itemLabelText = isY3 ? `${item} — (ONLY FOR Y3'S)` : item;
+            const id = "item_chk_" + idx;
+            const isY3 = y3sItems.includes(item);
+            const itemLabelText = isY3 ? `${item} — (ONLY FOR Y3'S)` : item;
 
-              const row = document.createElement("div");
-              row.className = "item-row p-2 border rounded mb-2";
+            const row = document.createElement("div");
+            row.className = "item-row p-2 border rounded mb-2";
 
-              row.innerHTML = `
+            row.innerHTML = `
         <div class="d-flex justify-content-between align-items-center">
 
           <div>
@@ -930,39 +849,45 @@
         </div>
       `;
 
-              container.appendChild(row);
-            });
+            container.appendChild(row);
+          });
 
-            // --- SEARCH FUNCTION ---
-            const searchInput = document.getElementById("itemsSearch");
-            searchInput.oninput = (e) => {
-              const q = e.target.value.trim().toLowerCase();
-              document
-                .querySelectorAll("#itemsModalList .item-row")
-                .forEach((row) => {
-                  const label = (
-                    row.querySelector("label")?.textContent || ""
-                  ).toLowerCase();
-                  row.style.display = label.includes(q) ? "" : "none";
-                });
-            };
+          // --- SEARCH FUNCTION ---
+          const searchInput = document.getElementById("itemsSearch");
+          searchInput.oninput = (e) => {
+            const q = e.target.value.trim().toLowerCase();
+            document
+              .querySelectorAll("#itemsModalList .item-row")
+              .forEach((row) => {
+                const label = (
+                  row.querySelector("label")?.textContent || ""
+                ).toLowerCase();
+                row.style.display = label.includes(q) ? "" : "none";
+              });
+          };
 
-            // --- SELECT ALL (only items with stock > 0) ---
-            const selectAll = document.getElementById("selectAllItems");
-            selectAll.onchange = (e) => {
-              const checked = e.target.checked;
-              document
-                .querySelectorAll("#itemsModalList .item-row")
-                .forEach((row) => {
-                  const chk = row.querySelector(".item-checkbox");
-                  if (!chk) return;
-                  if (!chk.disabled && row.style.display !== "none") {
-                    chk.checked = checked;
-                  }
-                });
-            };
-          })
-          .getRunningStocks();
+          // --- SELECT ALL ---
+          const selectAll = document.getElementById("selectAllItems");
+          selectAll.onchange = (e) => {
+            const checked = e.target.checked;
+            document
+              .querySelectorAll("#itemsModalList .item-row")
+              .forEach((row) => {
+                const chk = row.querySelector(".item-checkbox");
+                if (!chk) return;
+                if (row.style.display !== "none") {
+                  chk.checked = checked;
+                }
+              });
+          };
+        };
+
+        // If itemsFromSheet already loaded render immediately, otherwise fetch first
+        if (itemsFromSheet && itemsFromSheet.length > 0) {
+          render();
+        } else {
+          loadItemsFromSheet(render);
+        }
       }
 
       // Open items modal
