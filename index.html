@@ -42,20 +42,9 @@
       .table td {
         vertical-align: middle !important;
         font-size: 0.85rem;
-        /* Allow wrapping so table cells adjust to content */
+        /* Allow wrapping on small screens so table fits responsively */
         white-space: normal !important;
         word-break: break-word;
-      }
-
-      /* Flexible table layout and responsive wrapper */
-      .table {
-        table-layout: auto;
-        width: 100%;
-      }
-
-      .table-responsive {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
       }
 
       .table thead th {
@@ -183,23 +172,6 @@
         color: white;
         font-weight: 500;
       }
-
-      /* Swipe hint toast styling */
-      #swipeHintToast {
-        position: fixed;
-        bottom: 90px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1060;
-        max-width: 360px;
-      }
-
-      /* Hide the hint on larger screens */
-      @media (min-width: 577px) {
-        #swipeHintToast {
-          display: none !important;
-        }
-      }
     </style>
   </head>
   <body>
@@ -279,11 +251,11 @@
                   <thead class="table-light">
                     <tr>
                       <th style="width: 40px"></th>
-                      <th class="col-qty" style="width: 80px">Qty</th>
-                      <th class="col-unit" style="width: 120px">Unit</th>
-                      <th class="col-desc">Description</th>
-                      <th class="col-uprice" style="width: 120px">UPrice</th>
-                      <th class="col-amount" style="width: 120px">Amount</th>
+                      <th style="width: 80px">Qty</th>
+                      <th style="width: 120px">Unit</th>
+                      <th>Description</th>
+                      <th style="width: 120px">UPrice</th>
+                      <th style="width: 120px">Amount</th>
                     </tr>
                   </thead>
                   <tbody id="itemsBody"></tbody>
@@ -564,27 +536,6 @@
       </div>
     </div>
 
-    <!-- Swipe hint toast (mobile only) -->
-    <div
-      id="swipeHintToast"
-      class="toast text-bg-dark border-0"
-      role="alert"
-      aria-live="polite"
-      aria-atomic="true"
-    >
-      <div class="d-flex align-items-center">
-        <div class="toast-body text-white small">
-          Swipe the table to view more columns
-        </div>
-        <button
-          type="button"
-          class="btn-close btn-close-white me-2 m-1"
-          data-bs-dismiss="toast"
-          aria-label="Close"
-        ></button>
-      </div>
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -694,8 +645,6 @@
         initSignaturePad();
         buildItemsModalList(); // populate modal list
         loadBranchList(); // populate branch dropdown from sheet
-        // Show mobile swipe hint (unless dismissed)
-        showSwipeHintToast();
       });
 
       // fetch branch list from server (Branch List sheet column A)
@@ -718,33 +667,6 @@
             console.warn("Failed to load branch list:", err);
           })
           .getBranchList();
-      }
-
-      // Show a persistent swipe hint toast on mobile devices
-      function showSwipeHintToast() {
-        try {
-          const isMobile = window.innerWidth <= 576;
-          if (!isMobile) return;
-          if (localStorage.getItem("swipeHintDismissed")) return;
-
-          const toastEl = document.getElementById("swipeHintToast");
-          if (!toastEl) return;
-
-          const toast = new bootstrap.Toast(toastEl, { autohide: false });
-          toast.show();
-
-          // When the user dismisses the toast, remember it so we don't show repeatedly
-          const closeBtn = toastEl.querySelector('[data-bs-dismiss="toast"]');
-          if (closeBtn) {
-            closeBtn.addEventListener("click", function () {
-              try {
-                localStorage.setItem("swipeHintDismissed", "1");
-              } catch (e) {}
-            });
-          }
-        } catch (e) {
-          console.warn("swipe hint error", e);
-        }
       }
 
       // --- Signature Pad ---
@@ -1006,27 +928,27 @@
 
         // Always use clean manual input (no typedDescription)
         const itemColumn = `
-                <input type="text" class="form-control table-input description" id="removeNote" placeholder="Remove this if no more Entry"
-                oninput="manualUnit(this)" required>
-        `;
+                      <input type="text" class="form-control table-input description" id="removeNote" placeholder="Remove this if no more Entry"
+                      oninput="manualUnit(this)" required>
+  `;
 
         tr.innerHTML = `
     <td class="text-center">
       <input type="checkbox" class="form-check-input row-select">
     </td>
-    <td class="col-qty">
+    <td>
       <input type="number" min="1" class="form-control table-input qty"
              oninput="recalcRow(this)" required>
     </td>
-    <td class="col-unit">
+    <td>
       <input class="form-control table-input unit" readonly>
     </td>
     <td>${itemColumn}</td>
-    <td class="col-uprice">
+    <td>
       <input type="number" min="0.00" step="any" class="form-control table-input uprice" oninput="recalcRow(this)">
 
     </td>
-    <td class="col-amount">
+    <td>
       <input class="form-control table-input amount" readonly>
     </td>
   `;
@@ -1054,13 +976,13 @@
           const tr = document.createElement("tr");
           tr.innerHTML = `
             <td class="text-center"><input type="checkbox" class="form-check-input row-select"></td>
-            <td class="col-qty"><input type="number" min="1" class="form-control table-input qty" value="0" oninput="recalcRow(this)" required></td>
-            <td class="col-unit"><input class="form-control table-input unit" readonly></td>
-            <td class="col-desc"><input class="form-control table-input description" value="${escapeHtml(
+            <td><input type="number" min="1" class="form-control table-input qty" value="0" oninput="recalcRow(this)" required></td>
+            <td><input class="form-control table-input unit" readonly></td>
+            <td><input class="form-control table-input description" value="${escapeHtml(
               item
             )}" readonly></td>
-            <td class="col-uprice"><input type="number" min="0.00" step="any" class="form-control table-input uprice" oninput="recalcRow(this)"></td>
-            <td class="col-amount"><input class="form-control table-input amount" readonly></td>
+            <td><input type="number" min="0.00" step="any" class="form-control table-input uprice" oninput="recalcRow(this)"></td>
+            <td><input class="form-control table-input amount" readonly></td>
           `;
           tbody.appendChild(tr);
           setUnitForRow(tr, item);
