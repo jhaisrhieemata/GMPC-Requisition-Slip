@@ -331,13 +331,13 @@
                   <svg
                     width="60%"
                     height="60%"
-                    viewBox="0 0 600 200"
+                    viewBox="0 0 200 200"
                     preserveAspectRatio="xMidYMid meet"
                   >
                     <path
                       class="sig-example-path"
-                      d="M20 120 C80 40, 160 140, 220 90 C280 40, 340 120, 420 90 C480 70, 540 110, 580 100"
-                      stroke="#000"
+                      d="M 85 27 c 0 -0.24 0.45 -9.72 0 -14 c -0.17 -1.65 -0.95 -3.95 -2 -5 c -1.57 -1.57 -4.58 -3.15 -7 -4 c -4 -1.4 -8.72 -2.32 -13 -3 c -1.92 -0.3 -4.08 -0.3 -6 0 c -4.28 0.68 -9.01 1.47 -13 3 c -4.41 1.7 -8.63 5.13 -13 7 c -2.44 1.05 -5.87 0.7 -8 2 c -4.96 3.02 -10.34 7.83 -15 12 c -1.55 1.39 -3.11 3.22 -4 5 c -1.32 2.64 -2.38 6.09 -3 9 c -0.33 1.54 -0.49 3.62 0 5 c 1.02 2.85 2.91 6.63 5 9 c 2.6 2.94 7.02 5.27 10 8 c 0.84 0.77 1.15 2.34 2 3 c 1.9 1.48 4.66 3.03 7 4 c 1.48 0.62 3.7 0.35 5 1 c 1.08 0.54 1.93 2.39 3 3 c 1.04 0.59 2.8 0.45 4 1 c 3 1.38 6.18 3.07 9 5 c 3.5 2.4 7.46 5.25 10 8 c 1.07 1.16 1.68 3.38 2 5 c 0.3 1.51 -0.32 3.54 0 5 c 0.29 1.3 1.76 2.69 2 4 c 0.37 2.05 -0.27 4.72 0 7 c 0.39 3.32 1.68 6.67 2 10 c 0.34 3.59 0.29 7.34 0 11 c -0.38 4.71 -1.03 9.87 -2 14 c -0.25 1.05 -1.1 2.67 -2 3 c -4.36 1.61 -11.42 3.03 -17 4 c -1.92 0.33 -4.32 0.65 -6 0 c -7.76 -3 -19.01 -7.4 -25 -12 c -2.61 -2 -3.82 -7.29 -5 -11 c -1.09 -3.44 -1.54 -7.34 -2 -11 c -0.2 -1.64 -0.3 -3.49 0 -5 c 0.32 -1.62 1.03 -3.76 2 -5 c 1.15 -1.48 3.31 -3.06 5 -4 c 1.09 -0.6 2.96 -0.41 4 -1 c 1.07 -0.61 1.89 -2.39 3 -3 c 1.65 -0.92 3.91 -1.44 6 -2 c 18.46 -4.92 36.17 -8.63 54 -14 c 6.59 -1.99 12.7 -5.09 19 -8 c 2.46 -1.14 4.95 -2.43 7 -4 c 2.15 -1.66 4.44 -3.79 6 -6 c 2.3 -3.26 4.3 -7.35 6 -11 c 0.56 -1.2 1 -2.71 1 -4 c 0 -3.45 0.41 -8.74 -1 -11 c -1.32 -2.11 -5.95 -3.74 -9 -5 c -2.45 -1.01 -5.89 -2.47 -8 -2 c -2.99 0.66 -7.82 3.53 -10 6 c -2.26 2.56 -4.34 7.54 -5 11 c -0.55 2.88 -0.09 7.27 1 10 c 1.33 3.32 4.4 7.21 7 10 c 1.83 1.96 5.07 3.07 7 5 c 2.56 2.56 5.19 6.05 7 9 c 0.66 1.07 0.39 3.08 1 4 c 0.54 0.8 2.29 1.18 3 2 c 1.14 1.33 2.58 3.3 3 5 c 0.8 3.21 1.19 7.59 1 11 c -0.12 2.25 -1.15 4.87 -2 7 c -0.42 1.06 -1.12 2.37 -2 3 c -3.38 2.42 -7.89 4.94 -12 7 c -2.53 1.27 -5.4 2.51 -8 3 c -2.44 0.46 -5.54 -0.49 -8 0 c -3.9 0.78 -8.43 3.33 -12 4 c -1.16 0.22 -3.41 -0.18 -4 -1 c -1.55 -2.13 -4.62 -7.51 -4 -10 c 1 -3.98 6.4 -9.45 10 -14 c 2.82 -3.56 5.6 -7.37 9 -10 c 6.59 -5.1 14.33 -9.83 22 -14 c 7.76 -4.22 16.73 -7.23 24 -11 c 1.17 -0.61 1.86 -2.22 3 -3 c 5.06 -3.46 11.51 -6.36 16 -10 l 5 -7"
+                      stroke="#000000"
                       stroke-width="6"
                       fill="none"
                       stroke-linecap="round"
@@ -857,146 +857,254 @@
 
       // Validate signature heuristics: detect dot, straight line (underline/vertical), or box
       function validateSignature(canvas) {
-        const ctx = canvas.getContext("2d");
-        const w = canvas.width;
-        const h = canvas.height;
-        const data = ctx.getImageData(0, 0, w, h).data;
-        const points = [];
-        const threshold = 250; // consider pixel non-white if any channel < threshold
+        const rect = canvas.getBoundingClientRect();
+        const w = rect.width;
+        const h = rect.height;
 
-        for (let y = 0; y < h; y++) {
-          for (let x = 0; x < w; x++) {
-            const i = (y * w + x) * 4;
+        if (strokes && strokes.length > 0) {
+          let minX = Infinity,
+            minY = Infinity,
+            maxX = -Infinity,
+            maxY = -Infinity;
+
+          let totalLength = 0;
+          let totalPoints = 0;
+
+          let angleSum = 0;
+          let angleCount = 0;
+
+          // For checkmark detection
+          let directionChanges = 0;
+          let lastDX = null;
+          let lastDY = null;
+
+          strokes.forEach((stroke) => {
+            if (!stroke || stroke.length === 0) return;
+
+            totalPoints += stroke.length;
+
+            for (let i = 0; i < stroke.length; i++) {
+              const p = stroke[i];
+
+              // bounding box
+              if (p.x < minX) minX = p.x;
+              if (p.x > maxX) maxX = p.x;
+              if (p.y < minY) minY = p.y;
+              if (p.y > maxY) maxY = p.y;
+
+              // total line length
+              if (i > 0) {
+                const a = stroke[i - 1];
+                const dx = p.x - a.x;
+                const dy = p.y - a.y;
+                totalLength += Math.hypot(dx, dy);
+
+                // direction change detection (for check mark)
+                if (lastDX !== null && lastDY !== null) {
+                  const dir1 = Math.sign(lastDX);
+                  const dir2 = Math.sign(dx);
+                  const vert1 = Math.sign(lastDY);
+                  const vert2 = Math.sign(dy);
+
+                  if (
+                    (dir1 !== dir2 && Math.abs(dx) > 4) ||
+                    (vert1 !== vert2 && Math.abs(dy) > 4)
+                  ) {
+                    directionChanges++;
+                  }
+                }
+
+                lastDX = dx;
+                lastDY = dy;
+              }
+
+              // curvature
+              if (i > 1) {
+                const a = stroke[i - 2];
+                const b = stroke[i - 1];
+                const c = stroke[i];
+
+                const v1x = b.x - a.x,
+                  v1y = b.y - a.y;
+                const v2x = c.x - b.x,
+                  v2y = c.y - b.y;
+
+                const dot = v1x * v2x + v1y * v2y;
+                const mag1 = Math.hypot(v1x, v1y) || 1;
+                const mag2 = Math.hypot(v2x, v2y) || 1;
+
+                const angle = Math.acos(
+                  Math.max(-1, Math.min(1, dot / (mag1 * mag2)))
+                );
+                if (!isNaN(angle)) {
+                  angleSum += Math.abs(angle);
+                  angleCount++;
+                }
+              }
+            }
+          });
+
+          const width = maxX - minX;
+          const height = maxY - minY;
+          const avgCurvature = angleCount ? angleSum / angleCount : 0;
+
+          // ---------------------------------------------------------------
+          // 🔥 NEW HARD RULE: reject small, long, thin UNDERLINE
+          // ---------------------------------------------------------------
+          if (height < h * 0.06 && width > w * 0.45 && avgCurvature < 0.08) {
+            return {
+              ok: false,
+              reason:
+                "⚠️ Signature looks like an underline. Please sign properly.",
+            };
+          }
+
+          // ---------------------------------------------------------------
+          // 🔥 NEW HARD RULE: reject vertical line (short to long)
+          // ---------------------------------------------------------------
+          if (width < w * 0.07 && height > h * 0.35 && avgCurvature < 0.08) {
+            return {
+              ok: false,
+              reason:
+                "⚠️ Signature looks like a vertical line. Please sign naturally.",
+            };
+          }
+
+          // ---------------------------------------------------------------
+          // 🔥 NEW HARD RULE: reject CHECK MARK (✓ shape)
+          // logic: strong V shape = 1–3 direction changes + medium curvature
+          // ---------------------------------------------------------------
+          if (
+            directionChanges >= 1 &&
+            directionChanges <= 3 &&
+            width > w * 0.25 &&
+            height > h * 0.2 &&
+            avgCurvature > 0.12 &&
+            avgCurvature < 0.45
+          ) {
+            return {
+              ok: false,
+              reason:
+                "⚠️ Signature looks like a check mark ✓. Please sign fully.",
+            };
+          }
+
+          // ---------------------------------------------------------------
+          // Existing rules (unchanged)
+          // ---------------------------------------------------------------
+
+          if (
+            totalPoints === 0 ||
+            totalLength < Math.max(20, Math.min(w, h) * 0.25)
+          ) {
+            return {
+              ok: false,
+              reason: "⚠️ Signature is too small or blank. Please sign wider.",
+            };
+          }
+
+          if (
+            width < Math.max(12, w * 0.07) &&
+            height < Math.max(8, h * 0.05)
+          ) {
+            return {
+              ok: false,
+              reason:
+                "⚠️ Signature is too small (dot-like). Please sign wider.",
+            };
+          }
+
+          // Box detection
+          let edgeCount = 0,
+            interiorCount = 0;
+          strokes.forEach((stroke) => {
+            stroke.forEach((p) => {
+              const nearLeft = Math.abs(p.x - minX) < 6;
+              const nearRight = Math.abs(p.x - maxX) < 6;
+              const nearTop = Math.abs(p.y - minY) < 6;
+              const nearBottom = Math.abs(p.y - maxY) < 6;
+              if (nearLeft || nearRight || nearTop || nearBottom) edgeCount++;
+              else interiorCount++;
+            });
+          });
+
+          const edgeRatio = edgeCount / Math.max(1, edgeCount + interiorCount);
+          if (
+            edgeRatio > 0.7 &&
+            interiorCount < (edgeCount + interiorCount) * 0.35
+          ) {
+            return {
+              ok: false,
+              reason: "⚠️ Signature looks like a box. Please sign naturally.",
+            };
+          }
+
+          if (totalLength > Math.max(w, h) * 0.5 || avgCurvature > 0.03) {
+            return { ok: true };
+          }
+
+          return {
+            ok: false,
+            reason: "⚠️ Signature appears too simple. Please sign naturally.",
+          };
+        }
+
+        // ---------------------------------------------------------------
+        // Fallback pixel-based method (unchanged)
+        // ---------------------------------------------------------------
+        const ctx = canvas.getContext("2d");
+        const pxW = canvas.width;
+        const pxH = canvas.height;
+        const data = ctx.getImageData(0, 0, pxW, pxH).data;
+        const threshold = 250;
+        const points = [];
+        for (let y = 0; y < pxH; y++) {
+          for (let x = 0; x < pxW; x++) {
+            const i = (y * pxW + x) * 4;
             const r = data[i],
               g = data[i + 1],
               b = data[i + 2],
               a = data[i + 3];
-            if (a > 10 && (r < threshold || g < threshold || b < threshold)) {
+            if (a > 10 && (r < threshold || g < threshold || b < threshold))
               points.push({ x, y });
-            }
           }
         }
-
         if (!points.length)
           return { ok: false, reason: "⚠️ Signature is blank." };
 
-        // bounding box
-        let minX = Infinity,
-          minY = Infinity,
-          maxX = -Infinity,
-          maxY = -Infinity;
-        let sumX = 0,
-          sumY = 0;
-        points.forEach((p) => {
-          if (p.x < minX) minX = p.x;
-          if (p.x > maxX) maxX = p.x;
-          if (p.y < minY) minY = p.y;
-          if (p.y > maxY) maxY = p.y;
-          sumX += p.x;
-          sumY += p.y;
-        });
-        const width = maxX - minX + 1;
-        const height = maxY - minY + 1;
-        const meanX = sumX / points.length;
-        const meanY = sumY / points.length;
+        let minX2 = Infinity,
+          minY2 = Infinity,
+          maxX2 = -Infinity,
+          maxY2 = -Infinity;
 
-        // small dot: too small bounding box or too few pixels
-        if (width < Math.max(12, w * 0.05) && height < Math.max(12, h * 0.03)) {
+        points.forEach((p) => {
+          if (p.x < minX2) minX2 = p.x;
+          if (p.x > maxX2) maxX2 = p.x;
+          if (p.y < minY2) minY2 = p.y;
+          if (p.y > maxY2) maxY2 = p.y;
+        });
+
+        const width2 = maxX2 - minX2 + 1;
+        const height2 = maxY2 - minY2 + 1;
+
+        if (
+          width2 < Math.max(12, pxW * 0.05) &&
+          height2 < Math.max(12, pxH * 0.03)
+        )
           return {
             ok: false,
             reason: "⚠️ Signature is too small (dot-like). Please sign wider.",
           };
-        }
-        if (points.length < 150) {
+
+        if (points.length < 400)
           return {
             ok: false,
-            reason:
-              "⚠️ Signature appears too sparse. Please provide a fuller signature.",
+            reason: "⚠️ Signature appears too sparse. Please sign fully.",
           };
-        }
-
-        // variance to detect straight lines
-        let varX = 0,
-          varY = 0;
-        points.forEach((p) => {
-          varX += Math.pow(p.x - meanX, 2);
-          varY += Math.pow(p.y - meanY, 2);
-        });
-        varX /= points.length;
-        varY /= points.length;
-
-        // Horizontal underline: very low vertical variance, wide width
-        if (varY < 4 && width > w * 0.5) {
-          return {
-            ok: false,
-            reason:
-              "⚠️ Signature is an underline (straight horizontal). Please sign normally.",
-          };
-        }
-
-        // Vertical line: very low horizontal variance, tall height
-        if (varX < 4 && height > h * 0.5) {
-          return {
-            ok: false,
-            reason: "⚠️ Signature is a vertical line. Please sign normally.",
-          };
-        }
-
-        // Box detection: check density on edges vs interior
-        const edgeSamples = 8;
-        let topEdge = 0,
-          bottomEdge = 0,
-          leftEdge = 0,
-          rightEdge = 0;
-        for (let i = 0; i < edgeSamples; i++) {
-          const tx = Math.round(
-            minX + (i / (edgeSamples - 1)) * Math.max(0, width - 1)
-          );
-          const bx = tx;
-          const ly = Math.round(
-            minY + (i / (edgeSamples - 1)) * Math.max(0, height - 1)
-          );
-          const ry = ly;
-          // check small neighborhood for black pixels
-          const check = (cx, cy) => {
-            for (let oy = -2; oy <= 2; oy++)
-              for (let ox = -2; ox <= 2; ox++) {
-                const x = cx + ox,
-                  y = cy + oy;
-                if (x < 0 || x >= w || y < 0 || y >= h) continue;
-                const idx = (y * w + x) * 4;
-                const r = data[idx],
-                  g = data[idx + 1],
-                  b = data[idx + 2],
-                  a = data[idx + 3];
-                if (a > 10 && (r < threshold || g < threshold || b < threshold))
-                  return 1;
-              }
-            return 0;
-          };
-          topEdge += check(tx, minY);
-          bottomEdge += check(bx, maxY);
-          leftEdge += check(minX, ly);
-          rightEdge += check(maxX, ry);
-        }
-        const edgeTotal = topEdge + bottomEdge + leftEdge + rightEdge;
-        const interiorCount = points.length - edgeTotal;
-        if (
-          topEdge / edgeSamples > 0.6 &&
-          bottomEdge / edgeSamples > 0.6 &&
-          leftEdge / edgeSamples > 0.6 &&
-          rightEdge / edgeSamples > 0.6 &&
-          interiorCount < points.length * 0.35
-        ) {
-          return {
-            ok: false,
-            reason:
-              "⚠️ Signature looks like a box. Please sign naturally inside the box.",
-          };
-        }
 
         return { ok: true };
       }
+
       function clearSignaturePad() {
         const canvas = document.getElementById("sigCanvas");
         if (!canvas) return;
